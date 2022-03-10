@@ -61,6 +61,5 @@ export const pinoConfig: Params = {
       config.get('NODE_ENV') === Environment.local ? prettyPrint : false,
     formatters,
     serializers,
-    // genReqId: config.get('DD_TRACE_ENABLED') ? tracerId : undefined,
   },
 };

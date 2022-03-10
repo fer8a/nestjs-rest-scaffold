@@ -1,11 +1,12 @@
+import tracer from './otel-tracer';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import fastifyCors from 'fastify-cors';
 import { fastifyHelmet } from 'fastify-helmet';
 import { Logger } from 'nestjs-pino';
@@ -13,6 +14,9 @@ import { AppModule } from './app.module';
 import { Environment } from './common/constants';
 
 async function bootstrap() {
+  // initialize the tracer SDK and register with the OpenTelemetry API
+  await tracer.start();
+
   // Environment variables
   const config = new ConfigService();
 
@@ -44,7 +48,7 @@ async function bootstrap() {
   // Bind global Pipes
   app.useGlobalPipes(
     new ValidationPipe({
-      disableErrorMessages: false, // override prod
+      disableErrorMessages: config.get('NODE_ENV') === Environment.production,
       whitelist: true,
       transform: true,
     }),

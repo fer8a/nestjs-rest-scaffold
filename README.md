@@ -68,7 +68,7 @@ Here's why:
 * You shouldn't be doing the same tasks over and over; like integrating a DB layer, a microservice layer, etc.
 * You should implement DRY principles to the rest of your life as well :)
 
-Of course, no one template will serve all projects since your needs may be different, but here's for everyone who find it helpful. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
+Of course, no one template will serve all projects since your needs may be different, but here's for everyone who find it helpful.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -80,6 +80,7 @@ Of course, no one template will serve all projects since your needs may be diffe
 * [Fastify](https://www.fastify.io/)
 * [Prisma](https://www.prisma.io/)
 * [Pino](https://getpino.io/)
+* [Open Telemetry](https://opentelemetry.io/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -88,7 +89,10 @@ Of course, no one template will serve all projects since your needs may be diffe
 <!-- FEATURES -->
 ## Features
 
-Every time I get to build an API, a REST microservice, a server-side app; there's always a set of features that I end up reusing over and over given the utility they provide. That's the main reason I have decided to create this project, so let's list a few of these features provided on this project:
+Every time I start building an API, a REST microservice, a server-side app; there's always a set of features that I end up reusing over and over given the utility they provide. That's the main reason I have decided to create this project to bootstrap as much of this _core_ functionality as possible.
+
+Let's list a few of the features provided on this project:
+- Open Telemetry to instrument, generate, collect, and export telemetry data.
 - Terminus module for the healthcheck of your application exposed at the `/`.
 - OpenAPI specification ([Swagger](https://swagger.io/)) for all the `HTTP` routes.
 - Global exception middleware so you can catch and customize any target exception to your likings.
@@ -107,7 +111,7 @@ Every time I get to build an API, a REST microservice, a server-side app; there'
 <!-- FOLDER STRUCTURE -->
 ## Folder Structure
 
-I decided to follow the _Nest way_ of doing things and followed a module-based approach when it came to structuring the code.
+Following the _Nest way_ of doing things I ended up up with a module-based approach when it came to structuring the code.
 That being said, the project comes with a series of folders and modules that you can reuse and extend to fit your needs, let's talk a bit about it.
 - `common` It's a folder to add all the code that can be used by the different modules of your application. If you take a look at it, you'll notice
 there's several folders inside, some of them empty even, but it's just a convention to place different pieces of your code that can be reused later on.
@@ -119,6 +123,7 @@ but you could also make a case and include more modules in it, like your `db` fo
 - `logger` Module where you can place the log driver that is going to be use by your app. Comes with Pino and Winston out of the box.
 - `resources` This is where the bussines logic of your app can be placed. Where all the modules, resources and entities related to the solution you're building will live.
 - `transporters` Meant for all the microservices and interfaces other than `HTTP` that can se used in your app. Named Kafka, Redis, TCP, etc.
+- `otel-tracer` Open Telemetry SDK and configuration file.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -163,8 +168,7 @@ To get a local copy up and running follow these simple example steps.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Add unit tests
-- [] Add Telemetry layer
+- [x] Add unit tests
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
