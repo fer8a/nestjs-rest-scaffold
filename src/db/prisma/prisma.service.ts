@@ -15,8 +15,12 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     });
   }
 
+  /**
+   * Middleware to change all DELETE actions for Soft deletes instead
+   *
+   * @returns Promise<void>
+   */
   async softDeleteMiddleware() {
-    // change delete action to update and add a deleted date
     this.$use(async (params, next) => {
       if (params.action == 'delete') {
         params.action = 'update';
@@ -34,8 +38,12 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     });
   }
 
+  /**
+   * Middleware to filter all soft deleted records out of responses
+   *
+   * @returns Promise<void>
+   */
   async filterSoftDeleteMiddleware() {
-    // remove soft deleted records from find* responses
     this.$use(async (params, next) => {
       const actions = ['findUnique', 'findFirst', 'findMany'];
 
@@ -48,17 +56,5 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
       return await next(params);
     });
-  }
-
-  exclude(model: string, fields) {
-    const modelFields = {
-      ...PrismaClient[`${model}ScalarFieldEnum`],
-    };
-
-    fields.forEach((field) => delete modelFields[field]);
-
-    Object.keys(modelFields).forEach((key) => (modelFields[key] = true));
-
-    return modelFields;
   }
 }
