@@ -9,12 +9,13 @@ import {
   MongoConnectionError,
 } from '@nestjs/terminus';
 import { checkPackages, promiseTimeout } from '@nestjs/terminus/dist/utils';
+import { PrismaClient } from '@prisma/client';
 
 export interface PrismaPingCheckSettings {
   /**
    * The connection which the ping check should get executed
    */
-  connection?: any; // This changes to PrismaClient when the package is added
+  connection?: PrismaClient;
 
   /**
    * The database driver (MySQL, PostgreSQL, etc)
@@ -61,8 +62,12 @@ export class PrismaHealthIndicator extends HealthIndicator {
    * @param timeout The timeout how long the ping should maximum take
    *
    */
-  private async pingDb(connection: any, provider: string, timeout: number) {
-    let check: Promise<any>;
+  private async pingDb(
+    connection: PrismaClient,
+    provider: string,
+    timeout: number,
+  ) {
+    let check: Promise<any> = Promise.resolve();
 
     switch (provider) {
       case 'mongodb':
@@ -78,6 +83,7 @@ export class PrismaHealthIndicator extends HealthIndicator {
         check = connection.$queryRaw`SELECT 1`;
         break;
     }
+
     return await promiseTimeout(timeout, check);
   }
 
@@ -88,7 +94,7 @@ export class PrismaHealthIndicator extends HealthIndicator {
    * @param options The options for the ping
    *
    * @example
-   * pingCheck('database', { provider: 'mysql', timeout: 1500 });
+   * PrismaHealthIndicator.pingCheck('database', { timeout: 1500 });
    */
   async pingCheck(
     key: string,
@@ -97,7 +103,7 @@ export class PrismaHealthIndicator extends HealthIndicator {
     let isHealthy = false;
     this.checkDependantPackages();
 
-    const connection: any = options.connection; //|| this.getContextConnection();
+    const connection = options.connection; //|| this.getContextConnection();
     const timeout = options.timeout || 1000;
 
     if (!connection) {

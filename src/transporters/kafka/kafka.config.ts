@@ -3,24 +3,19 @@ import { KafkaOptions, Transport } from '@nestjs/microservices';
 
 const config = new ConfigService();
 
-/**
- * Return default configuration for Kafka connection
- *
- * @returns {KafkaOptions} - Kafka options
- */
 export const kafkaConfig: KafkaOptions = {
   transport: Transport.KAFKA,
   options: {
     client: {
       clientId: config.get('KAFKA_CLIENT_ID'),
-      brokers: [config.get('KAFKA_BROKER')],
+      brokers: config.get('KAFKA_BROKER').split(','),
       // ssl: {
       //   rejectUnauthorized: false,
       // },
       // sasl: {
       //   mechanism: 'scram-sha-512',
-      //   username: config.get('KAFKA_USER'),
-      //   password: config.get('KAFKA_PASS'),
+      //   username: config.get('KAFKA_USER') as string,
+      //   password: config.get('KAFKA_PASS') as string,
       // },
     },
     // subscribe: {
@@ -30,7 +25,7 @@ export const kafkaConfig: KafkaOptions = {
       allowAutoTopicCreation: false,
     },
     consumer: {
-      groupId: config.get('KAFKA_GROUP_ID'),
+      groupId: config.get('KAFKA_GROUP_ID') as string,
     },
   },
 };

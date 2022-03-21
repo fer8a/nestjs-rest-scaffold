@@ -5,9 +5,12 @@ import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
 const resource = new Resource({
-  [SemanticResourceAttributes.SERVICE_NAME]: process.env.npm_package_name,
-  [SemanticResourceAttributes.SERVICE_VERSION]: process.env.npm_package_version,
-  [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV,
+  [SemanticResourceAttributes.SERVICE_NAME]: process.env
+    .npm_package_name as string,
+  [SemanticResourceAttributes.SERVICE_VERSION]: process.env
+    .npm_package_version as string,
+  [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: process.env
+    .NODE_ENV as string,
 });
 const traceExporter = new ConsoleSpanExporter();
 

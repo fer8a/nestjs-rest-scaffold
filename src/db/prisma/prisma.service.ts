@@ -21,7 +21,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
    * @returns Promise<void>
    */
   async softDeleteMiddleware() {
-    this.$use(async (params, next) => {
+    this.$use(async (params: any, next: any) => {
       if (params.action == 'delete') {
         params.action = 'update';
         params.args['data'] = { deletedAt: new Date().toJSON() };
@@ -44,8 +44,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
    * @returns Promise<void>
    */
   async filterSoftDeleteMiddleware() {
-    this.$use(async (params, next) => {
-      const actions = ['findUnique', 'findFirst', 'findMany'];
+    this.$use(async (params: any, next: any) => {
+      const actions = ['findFirst', 'findMany'];
 
       if (actions.includes(params.action)) {
         params.args = {

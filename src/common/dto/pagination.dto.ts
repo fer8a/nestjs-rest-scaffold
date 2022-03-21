@@ -3,14 +3,14 @@ import { IsPositive, Min } from 'class-validator';
 export class PaginationDto<TData> {
   @IsPositive()
   @Min(0)
-  total: number;
+  total!: number;
 
   @IsPositive()
-  limit: number;
+  limit!: number;
 
   @IsPositive()
   @Min(0)
-  offset: number;
+  offset!: number;
 
-  results: TData[];
+  results!: TData[];
 }

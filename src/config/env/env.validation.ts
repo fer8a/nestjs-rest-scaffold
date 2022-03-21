@@ -4,10 +4,10 @@ import { Environment } from '../../common/constants';
 
 class EnvironmentVariables {
   @IsEnum(Environment)
-  NODE_ENV: Environment;
+  NODE_ENV!: Environment;
 
   @IsNumber()
-  PORT: number;
+  PORT?: number = 3000;
 }
 
 /**

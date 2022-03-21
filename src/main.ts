@@ -59,7 +59,7 @@ async function bootstrap() {
     const swaggerConfig = new DocumentBuilder()
       .setTitle('Boilerplate API')
       .setDescription('Example docs')
-      .setVersion(config.get('npm_package_version'))
+      .setVersion(config.get('npm_package_version') as string)
       .build();
     const document = SwaggerModule.createDocument(app, swaggerConfig);
     SwaggerModule.setup('api', app, document);

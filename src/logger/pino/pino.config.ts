@@ -31,7 +31,7 @@ const formatters = {
 };
 
 const serializers = {
-  req(request) {
+  req(request: { method: any; url: any; routerPath: any; params: any }) {
     return {
       method: request.method,
       url: request.url,
@@ -39,7 +39,7 @@ const serializers = {
       parameters: request.params,
     };
   },
-  res(reply) {
+  res(reply: { statusCode: any }) {
     return {
       statusCode: reply.statusCode,
     };
