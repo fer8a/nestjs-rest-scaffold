@@ -10,7 +10,7 @@ import { LoggerModule } from '@/logger/logger.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExceptionsFilter } from '@/common/exceptions/exceptions.filter';
 import { LogInterceptor } from '@/common/interceptors/log.interceptor';
-import { HealthcheckModule } from '@/healthcheck/healthcheck.module';
+import { HealthcheckModule } from '@/resources/healthcheck/healthcheck.module';
 
 @Module({
   imports: [CacheModule, ConfigModule, LoggerModule, HealthcheckModule],
