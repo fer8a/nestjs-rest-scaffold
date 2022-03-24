@@ -1,4 +1,4 @@
-import tracer from './otel-tracer';
+import tracer from './config/tracer/otel-tracer';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -74,6 +74,6 @@ async function bootstrap() {
   // app.connectMicroservice(microConfig);
   // await app.startAllMicroservices();
 
-  await app.listen(config.get('PORT') || 3000);
+  await app.listen(config.get('PORT', 3001));
 }
 bootstrap();
