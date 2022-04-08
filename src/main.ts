@@ -12,6 +12,7 @@ import { fastifyHelmet } from 'fastify-helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { Environment } from './common/constants';
+import * as qs from 'qs';
 
 async function bootstrap() {
   // initialize the tracer SDK and register with the OpenTelemetry API
@@ -23,7 +24,7 @@ async function bootstrap() {
   // App instance
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(),
+    new FastifyAdapter({ querystringParser: (str) => qs.parse(str) }),
     { bufferLogs: true },
   );
 

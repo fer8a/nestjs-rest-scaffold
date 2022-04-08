@@ -44,14 +44,16 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
    * @returns Promise<void>
    */
   async filterSoftDeleteMiddleware() {
+    // remove soft deleted records from find* responses
     this.$use(async (params: any, next: any) => {
       const actions = ['findFirst', 'findMany'];
 
+      if (params.action === 'findUnique') {
+        params.action = 'findFirst';
+      }
+
       if (actions.includes(params.action)) {
-        params.args = {
-          ...params.args,
-          where: { ...params.args?.where, deletedAt: null },
-        };
+        params.args.where['deletedAt'] = null;
       }
 
       return await next(params);

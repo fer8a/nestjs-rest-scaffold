@@ -1,13 +1,9 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from './prisma.service';
-
-/**
- * Prisma ORM DB module
- * https://docs.nestjs.com/recipes/prisma#prisma
- */
+import { PrismaFilterService } from './services/filter.service';
+import { PrismaService } from './services/prisma.service';
 
 @Module({
-  providers: [PrismaService],
-  exports: [PrismaService],
+  providers: [PrismaService, PrismaFilterService],
+  exports: [PrismaService, PrismaFilterService],
 })
 export class PrismaModule {}
