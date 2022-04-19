@@ -14,7 +14,7 @@ export class LogInterceptor implements NestInterceptor {
     this.logger = new Logger(LogInterceptor.name);
   }
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const now = Date.now();
     this.logger.log(this.buildRequestLog(context));
     const observable = next.handle();

@@ -17,9 +17,11 @@ export class ConsumerController {
    * @returns Kafka response object
    */
   @EventPattern(config.get('KAFKA_TOPIC'))
-  receivePayload(@Payload() message: any, @Ctx() context: KafkaContext) {
-    const value = JSON.parse(JSON.stringify(message.value));
-
-    return value;
+  receivePayload(
+    @Payload() message: { value: unknown },
+    @Ctx() context: KafkaContext,
+  ) {
+    console.log(context);
+    return JSON.parse(JSON.stringify(message.value));
   }
 }

@@ -25,13 +25,18 @@ const prettyTransp = {
 };
 
 const formatters = {
-  level(label: string, number: number) {
+  level(label: string) {
     return { level: label };
   },
 };
 
 const serializers = {
-  req(request: { method: any; url: any; routerPath: any; params: any }) {
+  req(request: {
+    method: string;
+    url: string;
+    routerPath: string;
+    params: unknown;
+  }) {
     return {
       method: request.method,
       url: request.url,
@@ -39,7 +44,7 @@ const serializers = {
       parameters: request.params,
     };
   },
-  res(reply: { statusCode: any }) {
+  res(reply: { statusCode: number }) {
     return {
       statusCode: reply.statusCode,
     };

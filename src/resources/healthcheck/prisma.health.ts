@@ -67,7 +67,7 @@ export class PrismaHealthIndicator extends HealthIndicator {
     provider: string,
     timeout: number,
   ) {
-    let check: Promise<any> = Promise.resolve();
+    let check: Promise<unknown> = Promise.resolve();
 
     switch (provider) {
       case 'mongodb':

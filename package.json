@@ -100,5 +100,8 @@
       "npm run lint",
       "npm run format"
     ]
+  },
+  "prisma": {
+    "schema": "src/db/prisma/schema.prisma"
   }
 }
