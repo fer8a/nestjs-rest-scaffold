@@ -1,13 +1,13 @@
 import { plainToInstance } from 'class-transformer';
 import { IsEnum, IsNumber, validateSync } from 'class-validator';
-import { Environment } from '../../common/constants';
+import { Environment } from './constants';
 
 class EnvironmentVariables {
   @IsEnum(Environment)
   NODE_ENV!: Environment;
 
   @IsNumber()
-  PORT?: number = 3000;
+  PORT?: number;
 }
 
 /**

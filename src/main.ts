@@ -3,16 +3,13 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { httpAdapter } from './config/httpAdapter';
+import { Environment } from './config/env/constants';
 import fastifyCors from 'fastify-cors';
 import { fastifyHelmet } from 'fastify-helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
-import { Environment } from './common/constants';
-import * as qs from 'qs';
 
 async function bootstrap() {
   // initialize the tracer SDK and register with the OpenTelemetry API
@@ -24,7 +21,7 @@ async function bootstrap() {
   // App instance
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ querystringParser: (str) => qs.parse(str) }),
+    httpAdapter,
     { bufferLogs: true },
   );
 

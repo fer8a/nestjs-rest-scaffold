@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
+import { Environment } from '@/config/env/constants';
 import { Params } from 'nestjs-pino';
-import { Environment } from 'src/common/constants';
 
 const config = new ConfigService();
 
