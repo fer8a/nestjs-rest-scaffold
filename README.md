@@ -115,15 +115,14 @@ Following the _Nest way_ of doing things I ended up up with a module-based appro
 That being said, the project comes with a series of folders and modules that you can reuse and extend to fit your needs, let's talk a bit about it.
 - `common` It's a folder to add all the code that can be used by the different modules of your application. If you take a look at it, you'll notice
 there's several folders inside, some of them empty even, but it's just a convention to place different pieces of your code that can be reused later on.
-- `config` Like its name implies is a folder to place all sort of configurations for your app. You'll notice I placed there the `cache` and `env` folders
-but you could also make a case and include more modules in it, like your `db` for instance, or any other module that relies on environment varibales or externals configurations.
+- `config` Like its name implies is a folder to place all sort of configurations for your app. `cache` and `env` configurations live here. You can also and include more modules in it, like your `db` for instance, or any other module that relies on environment variables or externals configurations.
+- `config/otel-tracer` Open Telemetry SDK and configuration file.
 - `core` This is it, the source of ~~evil~~ the base code. It's a module wrapping the minimun functionality that the app should have, again this is very opinionated of me, so you may choose to adjust it to fit your needs.
 - `db` Quite self explanatory, this is your DB module, the folder to place all your configs and ORM layer.
-- `healthcheck` This exposes the healthcheck functionality of your app to the `HTTP` transport layer.
 - `logger` Module where you can place the log driver that is going to be use by your app. Comes with Pino and Winston out of the box.
-- `resources` This is where the bussines logic of your app can be placed. Where all the modules, resources and entities related to the solution you're building will live.
-- `transporters` Meant for all the microservices and interfaces other than `HTTP` that can se used in your app. Named Kafka, Redis, TCP, etc.
-- `otel-tracer` Open Telemetry SDK and configuration file.
+- `resources` Interfaces and endpoints with the bussiness logic of your app should be placed here. Modules, Controllers, Services and entities related to the solution you're building.
+- `resoruces/healthcheck` This exposes the healthcheck functionality of your app to the `HTTP` transport layer.
+- `transporters` Meant for all the microservices and interfaces other than `HTTP` that can se used in your app. Kafka, Redis, TCP, etc.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

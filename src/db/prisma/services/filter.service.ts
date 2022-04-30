@@ -1,3 +1,4 @@
+import { validate as isValidUuid } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { FindManyWithParamsDto } from '../dto/find-many-params.dto';
 
@@ -21,7 +22,7 @@ export class PrismaFilterService {
 
     data.filter?.forEach((filter) => {
       const obj = this.buildFieldFilter(filter);
-      where.AND.push(obj);
+      where['AND'].push(obj);
     });
 
     return { skip, take, where, orderBy };
@@ -98,10 +99,11 @@ export class PrismaFilterService {
       pointer['endsWith'] = sanatizedvalue;
     } else {
       pointer['equals'] = Number(sanatizedvalue) || sanatizedvalue;
+    }
 
-      if (Number(sanatizedvalue)) {
-        delete obj.mode;
-      }
+    // remove mode for integers and uuid values
+    if (Number(sanatizedvalue) || isValidUuid(sanatizedvalue)) {
+      delete obj.mode;
     }
 
     return obj;

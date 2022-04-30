@@ -71,7 +71,7 @@ export class PrismaHealthIndicator extends HealthIndicator {
 
     switch (provider) {
       case 'mongodb':
-        // check = this.checkMongoDBConnection(connection);
+        check = connection.readyState;
         break;
       case 'oracle':
         check = connection.$queryRaw`SELECT 1 FROM DUAL`;
