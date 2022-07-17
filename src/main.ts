@@ -1,4 +1,4 @@
-import tracer from './config/tracer/otel-tracer';
+import './config/tracer/otel-tracer';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -10,20 +10,18 @@ import fastifyCors from 'fastify-cors';
 import { fastifyHelmet } from 'fastify-helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
+import { PrismaService } from './db/prisma/services/prisma.service';
 
 async function bootstrap() {
-  // initialize the tracer SDK and register with the OpenTelemetry API
-  await tracer.start();
-
-  // Environment variables
-  const config = new ConfigService();
-
   // App instance
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     httpAdapter,
     { bufferLogs: true },
   );
+
+  // Environment variables
+  const config = app.get(ConfigService);
 
   // Bind Logger
   app.useLogger(app.get(Logger));
@@ -66,6 +64,8 @@ async function bootstrap() {
   // Starts listening for shutdown hooks
   if (config.get('NODE_ENV') === Environment.production) {
     app.enableShutdownHooks();
+    const prismaService = app.get(PrismaService);
+    await prismaService.enableShutdownHooks(app);
   }
 
   // Initialize microservices

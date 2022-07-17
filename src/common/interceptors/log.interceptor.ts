@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { FastifyRequest, FastifyReply } from 'fastify';
 
 @Injectable()
 export class LogInterceptor implements NestInterceptor {
@@ -14,12 +15,19 @@ export class LogInterceptor implements NestInterceptor {
     this.logger = new Logger(LogInterceptor.name);
   }
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const { url } = context.switchToHttp().getRequest<FastifyRequest>();
+
+    // Ignore the logs if the request is health
+    if (url === '/health') {
+      return next.handle();
+    }
+
     const now = Date.now();
     this.logger.log(this.buildRequestLog(context));
     const observable = next.handle();
     return observable.pipe(
-      tap(() => this.logger.log(this.buildResponseLog(context, now))),
+      tap((data) => this.logger.log(this.buildResponseLog(context, now))),
     );
   }
 
@@ -30,13 +38,14 @@ export class LogInterceptor implements NestInterceptor {
    * route handler and class about to be invoked.
    */
   buildRequestLog(context: ExecutionContext) {
-    const { params, query, body } = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<FastifyRequest>();
+    const { method, url, params, query, body } = request;
 
     return {
       msg: 'Incoming Request',
       class: context.getClass().name,
       handler: context.getHandler().name,
-      request: { params, query, body },
+      request: { method, url, params, query, body },
     };
   }
 
@@ -47,14 +56,15 @@ export class LogInterceptor implements NestInterceptor {
    * route handler and class about to be invoked.
    */
   buildResponseLog(context: ExecutionContext, before: number) {
-    const { statusCode, outputSize } = context.switchToHttp().getResponse();
+    const response = context.switchToHttp().getResponse<FastifyReply>();
+    const { statusCode } = response;
 
     return {
       msg: 'Outgoing Response',
       class: context.getClass().name,
       handler: context.getHandler().name,
       executionTime: `${Date.now() - before}ms`,
-      response: { statusCode, outputSize },
+      response: { statusCode },
     };
   }
 }

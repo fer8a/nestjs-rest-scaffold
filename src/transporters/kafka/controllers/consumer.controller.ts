@@ -1,13 +1,10 @@
 import { Controller } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import {
   Ctx,
   EventPattern,
   KafkaContext,
   Payload,
 } from '@nestjs/microservices';
-
-const config = new ConfigService();
 
 @Controller()
 export class ConsumerController {
@@ -16,7 +13,7 @@ export class ConsumerController {
    *
    * @returns Kafka response object
    */
-  @EventPattern(config.get('KAFKA_TOPIC'))
+  @EventPattern(process.env.KAFKA_TOPIC)
   receivePayload(
     @Payload() message: { value: unknown },
     @Ctx() context: KafkaContext,
