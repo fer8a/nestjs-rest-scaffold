@@ -3,20 +3,21 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { NestFastifyApplication } from '@nestjs/platform-fastify';
-import { httpAdapter } from './config/httpAdapter';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 import { Environment } from './config/env/constants';
-import fastifyCors from 'fastify-cors';
-import { fastifyHelmet } from 'fastify-helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { PrismaService } from './db/prisma/services/prisma.service';
+import { httpOptions } from './config/httpAdapter';
 
 async function bootstrap() {
   // App instance
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    httpAdapter,
+    new FastifyAdapter(httpOptions),
     { bufferLogs: true },
   );
 
@@ -26,20 +27,6 @@ async function bootstrap() {
   // Bind Logger
   app.useLogger(app.get(Logger));
   app.flushLogs();
-
-  // Bind fastify middlewares
-  const helmetOptions = {
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: [`'self'`],
-        styleSrc: [`'self'`, `'unsafe-inline'`],
-        imgSrc: [`'self'`, 'data:', 'validator.swagger.io'],
-        scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
-      },
-    },
-  };
-  await app.register(fastifyHelmet, helmetOptions);
-  await app.register(fastifyCors);
 
   // Bind global Pipes
   app.useGlobalPipes(

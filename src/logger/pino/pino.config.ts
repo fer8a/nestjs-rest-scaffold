@@ -38,8 +38,6 @@ export const pinoConfig: Params = {
     autoLogging: false,
     transport:
       process.env.NODE_ENV === Environment.local ? prettyTransp : undefined,
-    prettyPrint:
-      process.env.NODE_ENV === Environment.local ? prettyPrint : false,
     formatters,
     serializers: { req: () => undefined },
   },

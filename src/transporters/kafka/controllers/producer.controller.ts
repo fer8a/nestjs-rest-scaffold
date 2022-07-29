@@ -10,7 +10,7 @@ export class ProducerController {
   ) {}
 
   /**
-   * Send test message to the Kafka Topic
+   * Send test message to a Kafka Topic
    *
    * @returns Kafka response
    */
