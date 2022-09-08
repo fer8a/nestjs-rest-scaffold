@@ -6,7 +6,7 @@ import { CacheModuleOptions } from '@nestjs/common';
  * @returns {CacheModuleOptions} Cache options
  */
 export const cacheConfig: CacheModuleOptions = {
-  ttl: 10,
+  ttl: 5,
   max: 100,
-  //store:
+  // store:
 };

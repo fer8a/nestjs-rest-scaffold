@@ -8,6 +8,9 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { Environment } from './config/env/constants';
+// import { kafkaConfig } from '@/transporters/kafka/kafka.config';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { PrismaService } from './db/prisma/services/prisma.service';
@@ -27,6 +30,10 @@ async function bootstrap() {
   // Bind Logger
   app.useLogger(app.get(Logger));
   app.flushLogs();
+
+  // Bind fastify middlewares
+  await app.register(helmet);
+  await app.register(cors);
 
   // Bind global Pipes
   app.useGlobalPipes(
@@ -56,9 +63,9 @@ async function bootstrap() {
   }
 
   // Initialize microservices
-  // app.connectMicroservice(microConfig);
+  // app.connectMicroservice(kafkaConfig);
   // await app.startAllMicroservices();
 
-  await app.listen(config.get('PORT', 3001));
+  await app.listen(config.get('PORT', 3000));
 }
 bootstrap();

@@ -6,18 +6,8 @@ export const kafkaConfig: KafkaOptions = {
     client: {
       clientId: process.env.KAFKA_CLIENT_ID,
       brokers: (process.env.KAFKA_BROKER as string).split(','),
-      // ssl: {
-      //   rejectUnauthorized: false,
-      // },
-      // sasl: {
-      //   mechanism: 'scram-sha-512',
-      //   username: process.env.KAFKA_USER') as string,
-      //   password: process.env.KAFKA_PASS') as string,
-      // },
+      ssl: process.env.KAFKA_SSL === 'true',
     },
-    // subscribe: {
-    //   fromBeginning: true,
-    // },
     producer: {
       allowAutoTopicCreation: false,
     },
