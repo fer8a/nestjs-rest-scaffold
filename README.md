@@ -93,8 +93,8 @@ Every time I start building an API, a REST microservice, a server-side app; ther
 
 Let's list a few of the features provided on this project:
 - Open Telemetry to instrument, generate, collect, and export telemetry data.
-- Terminus module for the healthcheck of your application exposed at the `/`.
-- OpenAPI specification ([Swagger](https://swagger.io/)) for all the `HTTP` routes.
+- Terminus module for the healthcheck of your application exposed at `/health` route.
+- OpenAPI specification ([Swagger](https://swagger.io/)) for all the `HTTP` routes (Thanks to NestJS CLI plugin).
 - Global exception middleware so you can catch and customize any target exception to your likings.
 - Global request-logger middleware so all the incoming and outgoing `HTTP` requests are logged by default with their metadata.
 - Global Cache middleware to enhance the response time of all the `GET` `HTTP` requests.
@@ -102,7 +102,7 @@ Let's list a few of the features provided on this project:
 - A database ORM to interact with mulple DB drivers using the great [Prisma](https://www.prisma.io/) package.
 - A programmatic way to generate logs using DI upon the right context of your application.
 - An example implementation of a [Kafka](https://kafka.apache.org/) transporter layer with a producer/consumer interface.
-- Husky package with _lint-staged_ bundled with a pre-commit hook that runs `npm lint` and `pretty format`
+- Husky package with _lint-staged_ bundled with _pre-commit and pre-push_ hooks that running linter, formatter and tests
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -111,14 +111,15 @@ Let's list a few of the features provided on this project:
 <!-- FOLDER STRUCTURE -->
 ## Folder Structure
 
-Following the _Nest way_ of doing things I ended up up with a module-based approach when it came to structuring the code.
+Following the _Nest way_ of things, I ended up up with a module-based approach when it came to structuring the code.
 That being said, the project comes with a series of folders and modules that you can reuse and extend to fit your needs, let's talk a bit about it.
 - `common` It's a folder to add all the code that can be used by the different modules of your application. If you take a look at it, you'll notice
-there's several folders inside, some of them empty even, but it's just a convention to place different pieces of your code that can be reused later on.
+there's several folders inside, some of them empty even, but it's just a convention to place different pieces of your code to be shared across.
 - `config` Like its name implies is a folder to place all sort of configurations for your app. `cache` and `env` configurations live here. You can also and include more modules in it, like your `db` for instance, or any other module that relies on environment variables or externals configurations.
 - `config/otel-tracer` Open Telemetry SDK and configuration file.
 - `core` This is it, the source of ~~evil~~ the base code. It's a module wrapping the minimun functionality that the app should have, again this is very opinionated of me, so you may choose to adjust it to fit your needs.
 - `db` Quite self explanatory, this is your DB module, the folder to place all your configs and ORM layer.
+- `providers` Folder to place external third-party SDKs or libraries (AWS, Sendgrid, etc).
 - `logger` Module where you can place the log driver that is going to be use by your app. Comes with Pino and Winston out of the box.
 - `resources` Interfaces and endpoints with the bussiness logic of your app should be placed here. Modules, Controllers, Services and entities related to the solution you're building.
 - `resoruces/healthcheck` This exposes the healthcheck functionality of your app to the `HTTP` transport layer.
