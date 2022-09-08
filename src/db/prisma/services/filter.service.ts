@@ -1,6 +1,6 @@
 import { validate as isValidUuid } from 'uuid';
 import { Injectable } from '@nestjs/common';
-import { FindManyWithParamsDto } from '../dto/find-many-params.dto';
+import { FindManyWithParamsDto, ParamTuple } from '../dto/find-many-params.dto';
 
 enum DateFields {
   createdAt = 'createdAt',
@@ -25,10 +25,15 @@ export class PrismaFilterService {
       where['AND'].push(obj);
     });
 
+    // in case deleted records are explicitly requested
+    // this is needed as long as this issues are open
+    //  https://github.com/prisma/prisma/issues/6882
+    where.deleted = data.deleted;
+
     return { skip, take, where, orderBy };
   }
 
-  private buildFieldFilter(filter: { field: string; value: string }) {
+  private buildFieldFilter(filter: ParamTuple) {
     const { field, value } = filter;
     const values = value.split(',');
 
@@ -65,7 +70,7 @@ export class PrismaFilterService {
 
   private getFilterType(field: string, value: string) {
     if (field in DateFields) {
-      return this.getDateTimeFilterType(field, value);
+      return this.getDateTimeFilterType(value);
     }
 
     const secondChar = value[1];
@@ -101,15 +106,19 @@ export class PrismaFilterService {
       pointer['equals'] = Number(sanatizedvalue) || sanatizedvalue;
     }
 
-    // remove mode for integers and uuid values
-    if (Number(sanatizedvalue) || isValidUuid(sanatizedvalue)) {
+    // remove mode for integers, enumns/constants and uuid values
+    if (
+      Number(sanatizedvalue) ||
+      isValidUuid(sanatizedvalue) ||
+      sanatizedvalue === sanatizedvalue.toUpperCase()
+    ) {
       delete obj.mode;
     }
 
     return obj;
   }
 
-  private getDateTimeFilterType(field: string, value: string) {
+  private getDateTimeFilterType(value: string) {
     //TODO ADD Timezone logic
     const obj: { lt?: Date; lte?: Date; gt?: Date; gte?: Date } = {};
 

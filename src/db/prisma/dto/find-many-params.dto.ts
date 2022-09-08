@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsArray,
+  IsBoolean,
   IsEnum,
   IsOptional,
   IsString,
@@ -14,7 +15,7 @@ enum SortValue {
   desc = 'desc',
 }
 
-class ParamTuple {
+export class ParamTuple {
   @IsString()
   field!: string;
 
@@ -22,10 +23,7 @@ class ParamTuple {
   value!: string;
 }
 
-class SortTuple {
-  @IsString()
-  field!: string;
-
+class SortTuple extends ParamTuple {
   @IsEnum(SortValue)
   value!: SortValue;
 }
@@ -50,4 +48,10 @@ export class FindManyWithParamsDto extends FindManyDto {
   @Type(() => SortTuple)
   @IsOptional()
   sort?: SortTuple[];
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value?.toLowerCase() === 'true')
+  // Use this parameter to explicitly request for soft-deleted records
+  deleted?: boolean;
 }

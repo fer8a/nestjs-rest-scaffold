@@ -1,5 +1,5 @@
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -21,7 +21,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
    * @returns Promise<void>
    */
   async softDeleteMiddleware() {
-    this.$use(async (params: any, next: any) => {
+    this.$use(async (params: Prisma.MiddlewareParams, next) => {
       if (params.action == 'delete') {
         params.action = 'update';
         params.args['data'] = { deletedAt: new Date().toJSON() };
@@ -44,8 +44,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
    * @returns Promise<void>
    */
   async filterSoftDeleteMiddleware() {
-    // remove soft deleted records from find* responses
-    this.$use(async (params: any, next: any) => {
+    this.$use(async (params: Prisma.MiddlewareParams, next) => {
       const actions = ['findFirst', 'findMany'];
 
       if (params.action === 'findUnique') {
@@ -53,7 +52,13 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       }
 
       if (actions.includes(params.action)) {
-        params.args.where['deletedAt'] = null;
+        // in case deleted records are not explicitly requested
+        // return only non soft-deleted records
+        if (!params.args.where['deleted']) {
+          params.args.where['deletedAt'] = null;
+        }
+
+        delete params.args.where['deleted'];
       }
 
       return await next(params);
