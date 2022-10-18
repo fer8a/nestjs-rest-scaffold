@@ -29,7 +29,7 @@
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.11",
     "@nestjs/microservices": "^9.0.11",
-    "@nestjs/platform-fastify": "^9.0.11",
+    "@nestjs/platform-fastify": "^8.4.7",
     "@nestjs/swagger": "^6.1.2",
     "@nestjs/terminus": "^9.1.1",
     "@opentelemetry/api": "^1.2.0",
