@@ -1,4 +1,3 @@
-import { validate as isValidUuid } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { FindManyWithParamsDto, ParamTuple } from '../dto/find-many-params.dto';
 
@@ -24,11 +23,6 @@ export class PrismaFilterService {
       const obj = this.buildFieldFilter(filter);
       where['AND'].push(obj);
     });
-
-    // in case deleted records are explicitly requested
-    // this is needed as long as this issues are open
-    //  https://github.com/prisma/prisma/issues/6882
-    where.deleted = data.deleted;
 
     return { skip, take, where, orderBy };
   }
@@ -104,15 +98,6 @@ export class PrismaFilterService {
       pointer['endsWith'] = sanatizedvalue;
     } else {
       pointer['equals'] = Number(sanatizedvalue) || sanatizedvalue;
-    }
-
-    // remove mode for integers, enumns/constants and uuid values
-    if (
-      Number(sanatizedvalue) ||
-      isValidUuid(sanatizedvalue) ||
-      sanatizedvalue === sanatizedvalue.toUpperCase()
-    ) {
-      delete obj.mode;
     }
 
     return obj;

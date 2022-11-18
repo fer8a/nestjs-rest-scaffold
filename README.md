@@ -113,8 +113,6 @@ Let's list a few of the features provided on this project:
 
 Following the _Nest way_ of things, I ended up up with a module-based approach when it came to structuring the code.
 That being said, the project comes with a series of folders and modules that you can reuse and extend to fit your needs, let's talk a bit about it.
-- `common` It's a folder to add all the code that can be used by the different modules of your application. If you take a look at it, you'll notice
-there's several folders inside, some of them empty even, but it's just a convention to place different pieces of your code to be shared across.
 - `config` Like its name implies is a folder to place all sort of configurations for your app. `cache` and `env` configurations live here. You can also and include more modules in it, like your `db` for instance, or any other module that relies on environment variables or externals configurations.
 - `config/otel-tracer` Open Telemetry SDK and configuration file.
 - `core` This is it, the source of ~~evil~~ the base code. It's a module wrapping the minimun functionality that the app should have, again this is very opinionated of me, so you may choose to adjust it to fit your needs.
