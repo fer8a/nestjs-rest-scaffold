@@ -120,7 +120,7 @@ That being said, the project comes with a series of folders and modules that you
 - `providers` Folder to place external third-party SDKs or libraries (AWS, Sendgrid, etc).
 - `logger` Module where you can place the log driver that is going to be use by your app. Comes with Pino and Winston out of the box.
 - `resources` Interfaces and endpoints with the bussiness logic of your app should be placed here. Modules, Controllers, Services and entities related to the solution you're building.
-- `resoruces/healthcheck` This exposes the healthcheck functionality of your app to the `HTTP` transport layer.
+- `resources/healthcheck` This exposes the healthcheck functionality of your app to the `HTTP` transport layer.
 - `transporters` Meant for all the microservices and interfaces other than `HTTP` that can se used in your app. Kafka, Redis, TCP, etc.
 
 
