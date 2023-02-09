@@ -12,7 +12,7 @@ import { Prisma } from '@prisma/client';
 export class ExceptionsFilter extends BaseExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost): void {
     if (exception instanceof Prisma.NotFoundError) {
-      throw new NotFoundException(exception);
+      throw new NotFoundException(exception.message);
     }
 
     super.catch(exception, host);
