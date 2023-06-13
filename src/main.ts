@@ -1,4 +1,4 @@
-import './config/tracer/otel-tracer';
+import { otelSdk } from './config/tracer/otel-tracer';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -17,6 +17,9 @@ import { PrismaService } from './db/prisma/services/prisma.service';
 import { httpOptions } from './config/httpAdapter';
 
 async function bootstrap() {
+  // Open Telemetry SDK initialization
+  otelSdk.start()
+
   // App instance
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -68,4 +71,4 @@ async function bootstrap() {
 
   await app.listen(config.get('PORT', 3000));
 }
-bootstrap();
+bootstrap().catch(console.log);

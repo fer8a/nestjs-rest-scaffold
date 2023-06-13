@@ -1,4 +1,4 @@
-import { CacheModule as cacheModule } from '@nestjs/common';
+import { CacheModule as cacheModule } from '@nestjs/cache-manager';
 import { cacheConfig } from './cache.config';
 
 /**

@@ -16,7 +16,7 @@ const traceExporter = new ConsoleSpanExporter();
 
 // configure the SDK to export telemetry data to the console
 // enable all auto-instrumentations from the meta package
-const otelSdk = new NodeSDK({
+export const otelSdk = new NodeSDK({
   resource,
   traceExporter,
   instrumentations: [
@@ -32,13 +32,6 @@ const otelSdk = new NodeSDK({
   ],
 });
 
-// initialize the SDK and register with the OpenTelemetry API
-// this enables the API to record telemetry
-otelSdk
-  .start()
-  .then(() => console.log('Tracing initialized'))
-  .catch((error) => console.log('Error initializing tracing', error));
-
 // gracefully shut down the SDK on process exit
 process.on('SIGTERM', () => {
   otelSdk
@@ -47,5 +40,3 @@ process.on('SIGTERM', () => {
     .catch((error) => console.log('Error terminating tracing', error))
     .finally(() => process.exit(0));
 });
-
-export default otelSdk;
