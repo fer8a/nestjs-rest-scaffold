@@ -18,7 +18,7 @@ import { httpOptions } from './config/httpAdapter';
 
 async function bootstrap() {
   // Open Telemetry SDK initialization
-  otelSdk.start()
+  otelSdk.start();
 
   // App instance
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -71,4 +71,4 @@ async function bootstrap() {
 
   await app.listen(config.get('PORT', 3000));
 }
-bootstrap().catch(console.log);
+bootstrap();
