@@ -1,4 +1,4 @@
-import { PrismaService } from '@/db/prisma/services/prisma.service';
+import { PrismaService } from '@/config/db/prisma/services/prisma.service';
 import { execSync } from 'child_process';
 import * as uuid from 'uuid';
 

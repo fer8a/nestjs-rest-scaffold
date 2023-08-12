@@ -1,4 +1,4 @@
-import { PrismaService } from '@/db/prisma/services/prisma.service';
+import { PrismaService } from '@/config/db/prisma/services/prisma.service';
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {

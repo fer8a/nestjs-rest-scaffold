@@ -1,4 +1,4 @@
-import { PrismaModule } from '@/db/prisma/prisma.module';
+import { PrismaModule } from '@/config/db/prisma/prisma.module';
 import { Module } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthcheckController } from './controllers/healthcheck.controller';

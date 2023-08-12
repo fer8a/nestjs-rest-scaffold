@@ -2,7 +2,7 @@ import { ClassSerializerInterceptor, Logger, Module } from '@nestjs/common';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ConfigModule } from '@/config/env/config.module';
 import { CacheModule } from '@/config/cache/cache.module';
-import { LoggerModule } from '@/logger/logger.module';
+import { LoggerModule } from '@/config/log/logger.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExceptionsFilter } from '@/core/exceptions/exceptions.filter';
 import { LogInterceptor } from '@/core/interceptors/log.interceptor';
