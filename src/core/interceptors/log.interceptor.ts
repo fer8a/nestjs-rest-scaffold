@@ -15,7 +15,7 @@ export class LogInterceptor implements NestInterceptor {
     this.logger = new Logger(LogInterceptor.name);
   }
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const { url } = context.switchToHttp().getRequest<FastifyRequest>();
 
     // Ignore the logs if the request is health
@@ -27,7 +27,7 @@ export class LogInterceptor implements NestInterceptor {
     this.logger.log(this.buildRequestLog(context));
     const observable = next.handle();
     return observable.pipe(
-      tap((data) => this.logger.log(this.buildResponseLog(context, now))),
+      tap(() => this.logger.log(this.buildResponseLog(context, now))),
     );
   }
 

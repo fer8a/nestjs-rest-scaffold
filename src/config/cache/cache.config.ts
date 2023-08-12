@@ -1,4 +1,4 @@
-import { CacheModuleOptions } from '@nestjs/common';
+import { CacheModuleOptions } from '@nestjs/cache-manager';
 
 /**
  * Return default configuration for Cache storage
@@ -6,7 +6,7 @@ import { CacheModuleOptions } from '@nestjs/common';
  * @returns {CacheModuleOptions} Cache options
  */
 export const cacheConfig: CacheModuleOptions = {
-  ttl: 5,
+  ttl: 5000,
   max: 100,
   // store:
 };

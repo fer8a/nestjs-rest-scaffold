@@ -1,8 +1,4 @@
-import {
-  ClassSerializerInterceptor,
-  Logger,
-  Module,
-} from '@nestjs/common';
+import { ClassSerializerInterceptor, Logger, Module } from '@nestjs/common';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ConfigModule } from '@/config/env/config.module';
 import { CacheModule } from '@/config/cache/cache.module';

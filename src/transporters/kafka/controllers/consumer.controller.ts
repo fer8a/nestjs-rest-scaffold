@@ -15,6 +15,7 @@ export class ConsumerController {
    */
   @EventPattern(process.env.KAFKA_TOPIC)
   receivePayload(@Payload() message: unknown, @Ctx() context: KafkaContext) {
+    console.log(context.getTopic());
     return JSON.parse(JSON.stringify(message));
   }
 }

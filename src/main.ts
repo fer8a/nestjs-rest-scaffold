@@ -13,7 +13,6 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
-import { PrismaService } from './db/prisma/services/prisma.service';
 import { httpOptions } from './config/httpAdapter';
 
 async function bootstrap() {
@@ -61,8 +60,6 @@ async function bootstrap() {
   // Starts listening for shutdown hooks
   if (config.get('NODE_ENV') === Environment.production) {
     app.enableShutdownHooks();
-    const prismaService = app.get(PrismaService);
-    await prismaService.enableShutdownHooks(app);
   }
 
   // Initialize microservices
