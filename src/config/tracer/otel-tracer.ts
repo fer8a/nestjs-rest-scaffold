@@ -21,13 +21,7 @@ export const otelSdk = new NodeSDK({
   traceExporter,
   instrumentations: [
     getNodeAutoInstrumentations({
-      '@opentelemetry/instrumentation-http': {},
-      '@opentelemetry/instrumentation-pino': {
-        // Optional hook to insert additional context to log object.
-        logHook: (span, record) => {
-          record.service = resource.attributes['service.name'];
-        },
-      },
+      '@opentelemetry/instrumentation-nestjs-core': {},
     }),
   ],
 });
