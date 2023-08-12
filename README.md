@@ -115,10 +115,10 @@ Following the _Nest way_ of things, I ended up up with a module-based approach w
 That being said, the project comes with a series of folders and modules that you can reuse and extend to fit your needs, let's talk a bit about it.
 - `config` Like its name implies is a folder to place all sort of configurations for your app. `cache` and `env` configurations live here. You can also and include more modules in it, like your `db` for instance, or any other module that relies on environment variables or externals configurations.
 - `config/otel-tracer` Open Telemetry SDK and configuration file.
+- `config/db` Quite self explanatory, this is your DB module, the folder to place all your configs and ORM layer.
+- `config/logs` Module where you can place the log driver used by your app. Comes with Pino and Winston out of the box.
 - `core` This is it, the source of ~~evil~~ the base code. It's a module wrapping the minimun functionality that the app should have, again this is very opinionated of me, so you may choose to adjust it to fit your needs.
-- `db` Quite self explanatory, this is your DB module, the folder to place all your configs and ORM layer.
 - `providers` Folder to place external third-party SDKs or libraries (AWS, Sendgrid, etc).
-- `logger` Module where you can place the log driver that is going to be use by your app. Comes with Pino and Winston out of the box.
 - `resources` Interfaces and endpoints with the bussiness logic of your app should be placed here. Modules, Controllers, Services and entities related to the solution you're building.
 - `resources/healthcheck` This exposes the healthcheck functionality of your app to the `HTTP` transport layer.
 - `transporters` Meant for all the microservices and interfaces other than `HTTP` that can se used in your app. Kafka, Redis, TCP, etc.
