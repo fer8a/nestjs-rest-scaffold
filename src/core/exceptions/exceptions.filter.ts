@@ -1,4 +1,9 @@
-import { Catch, ArgumentsHost, NotFoundException } from '@nestjs/common';
+import {
+  Catch,
+  ArgumentsHost,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
 
@@ -11,8 +16,19 @@ import { Prisma } from '@prisma/client';
 @Catch()
 export class ExceptionsFilter extends BaseExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost): void {
-    if (exception instanceof Prisma.NotFoundError) {
-      throw new NotFoundException(exception.message);
+    if (exception instanceof Prisma.PrismaClientKnownRequestError) {
+      switch (exception.code) {
+        case 'P2025':
+          throw new NotFoundException(exception.message);
+          break;
+        case 'P2002':
+          throw new ConflictException(
+            `Unique constraint failed on the fields: [${exception.meta?.target}]`,
+          );
+          break;
+        default:
+          break;
+      }
     }
 
     super.catch(exception, host);
