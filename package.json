@@ -112,6 +112,6 @@
     ]
   },
   "prisma": {
-    "schema": "src/db/prisma/schema.prisma"
+    "schema": "src/config/db/prisma/schema.prisma"
   }
 }
