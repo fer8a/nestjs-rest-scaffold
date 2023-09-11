@@ -5,8 +5,8 @@ import {
   HealthCheck,
   HealthCheckService,
   MemoryHealthIndicator,
+  PrismaHealthIndicator,
 } from '@nestjs/terminus';
-import { PrismaHealthIndicator } from '../services/prisma.health';
 
 @ApiTags('Healthcheck')
 @Controller('health')
@@ -21,18 +21,12 @@ export class HealthcheckController {
   @Get()
   @HealthCheck()
   healthCheck() {
-    const prismaSettings = {
-      connection: this.prismaService,
-      provider: 'postgresql',
-      timeout: 5000,
-    };
-
     // Check Services connection
     return this.health.check([
       // The process should not use more than 150MB memory
       () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
       // Check DB connection
-      () => this.prisma.pingCheck('Database', prismaSettings),
+      () => this.prisma.pingCheck('prisma', this.prismaService),
     ]);
   }
 }

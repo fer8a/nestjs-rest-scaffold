@@ -1,12 +1,13 @@
 import { createMock } from '@golevelup/ts-jest';
-import { HealthCheckService } from '@nestjs/terminus';
+import { HealthCheckService, PrismaHealthIndicator } from '@nestjs/terminus';
 import { Test } from '@nestjs/testing';
-import { PrismaHealthIndicator } from '../services/prisma.health';
 import { HealthcheckController } from './healthcheck.controller';
+import { PrismaService } from '@/config/db/prisma/services/prisma.service';
 
 describe('Healthcheck Controller', () => {
   let controller: HealthcheckController;
   let healthService: HealthCheckService;
+  let prismaService: PrismaService;
   let prismaHealth: PrismaHealthIndicator;
 
   beforeEach(async () => {
@@ -18,23 +19,23 @@ describe('Healthcheck Controller', () => {
 
     controller = moduleRef.get(HealthcheckController);
     healthService = moduleRef.get(HealthCheckService);
+    prismaService = moduleRef.get(PrismaService);
     prismaHealth = moduleRef.get(PrismaHealthIndicator);
   });
 
   describe('Test healthCheck function', () => {
     it('Should return OK-UP health indicators', async () => {
-      const upMock = { Database: { status: 'up' as const } };
+      const upMock = { prisma: { status: 'up' as const } };
 
       jest.spyOn(prismaHealth, 'pingCheck').mockResolvedValueOnce(upMock);
 
       const okMock = {
         status: 'ok' as const,
-        info: await prismaHealth.pingCheck('Database', { provider: '' }),
+        info: await prismaHealth.pingCheck('prisma', prismaService),
         error: {},
-        details: await prismaHealth.pingCheck('Database', { provider: '' }),
+        details: await prismaHealth.pingCheck('prisma', prismaService),
       };
 
-      jest.spyOn(prismaHealth, 'pingCheck').mockResolvedValueOnce(upMock);
       jest.spyOn(healthService, 'check').mockResolvedValueOnce(okMock);
 
       const response = await controller.healthCheck();
@@ -45,15 +46,15 @@ describe('Healthcheck Controller', () => {
     });
 
     it('Should return ERROR-DOWN health indicators', async () => {
-      const downMock = { Database: { status: 'down' as const } };
+      const downMock = { prisma: { status: 'down' as const } };
 
       jest.spyOn(prismaHealth, 'pingCheck').mockResolvedValueOnce(downMock);
 
       const errorMock = {
         status: 'error' as const,
         info: {},
-        error: await prismaHealth.pingCheck('Database', { provider: '' }),
-        details: await prismaHealth.pingCheck('Database', { provider: '' }),
+        error: await prismaHealth.pingCheck('prisma', prismaService),
+        details: await prismaHealth.pingCheck('prisma', prismaService),
       };
 
       jest.spyOn(prismaHealth, 'pingCheck').mockResolvedValueOnce(downMock);
