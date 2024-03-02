@@ -7,7 +7,7 @@ class EnvironmentVariables {
   NODE_ENV!: Environment;
 
   @IsNumber()
-  PORT?: number;
+  PORT!: number;
 }
 
 /**
