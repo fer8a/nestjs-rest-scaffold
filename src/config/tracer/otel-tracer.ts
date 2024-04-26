@@ -2,15 +2,16 @@ import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-base';
 import { Resource } from '@opentelemetry/resources';
-import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import {
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_VERSION,
+  SEMRESATTRS_DEPLOYMENT_ENVIRONMENT,
+} from '@opentelemetry/semantic-conventions';
 
 const resource = new Resource({
-  [SemanticResourceAttributes.SERVICE_NAME]: process.env
-    .npm_package_name as string,
-  [SemanticResourceAttributes.SERVICE_VERSION]: process.env
-    .npm_package_version as string,
-  [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: process.env
-    .NODE_ENV as string,
+  [SEMRESATTRS_SERVICE_NAME]: process.env.npm_package_name as string,
+  [SEMRESATTRS_SERVICE_VERSION]: process.env.npm_package_version as string,
+  [SEMRESATTRS_DEPLOYMENT_ENVIRONMENT]: process.env.NODE_ENV as string,
 });
 const traceExporter = new ConsoleSpanExporter();
 
