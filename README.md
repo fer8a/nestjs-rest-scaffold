@@ -102,7 +102,7 @@ Let's list a few of the features provided on this project:
 - A database ORM to interact with mulple DB drivers using the great [Prisma](https://www.prisma.io/) package.
 - A programmatic way to generate logs using DI upon the right context of your application.
 - An example implementation of a [Kafka](https://kafka.apache.org/) transporter layer with a producer/consumer interface.
-- Husky package with _lint-staged_ bundled with _pre-commit and pre-push_ hooks that running linter, formatter and tests
+- Husky package with _lint-staged_ bundled with _pre-commit and pre-push_ hooks that will run linter, formatter and tests
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -113,15 +113,15 @@ Let's list a few of the features provided on this project:
 
 Following the _Nest way_ of things, I ended up up with a module-based approach when it came to structuring the code.
 That being said, the project comes with a series of folders and modules that you can reuse and extend to fit your needs, let's talk a bit about it.
-- `config` Like its name implies is a folder to place all sort of configurations for your app. `cache` and `env` configurations live here. You can also and include more modules in it, like your `db` for instance, or any other module that relies on environment variables or externals configurations.
+- `config` Like its name implies is a folder to place all sort of configurations for your app. `cache`, `env`, configurations live here. You can also and include more modules in it.
 - `config/otel-tracer` Open Telemetry SDK and configuration file.
 - `config/db` Quite self explanatory, this is your DB module, the folder to place all your configs and ORM layer.
 - `config/logs` Module where you can place the log driver used by your app. Comes with Pino and Winston out of the box.
-- `core` This is it, the source of ~~evil~~ the base code. It's a module wrapping the minimun functionality that the app should have, again this is very opinionated of me, so you may choose to adjust it to fit your needs.
+- `core` This is it, the source of ~~evil~~ the base code. It's a module wrapping the minimun functionality the app should have, again this is very opinionated of me, so you may choose to adjust it to fit your needs.
 - `providers` Folder to place external third-party SDKs or libraries (AWS, Sendgrid, etc).
 - `resources` Interfaces and endpoints with the bussiness logic of your app should be placed here. Modules, Controllers, Services and entities related to the solution you're building.
 - `resources/healthcheck` This exposes the healthcheck functionality of your app to the `HTTP` transport layer.
-- `transporters` Meant for all the microservices and interfaces other than `HTTP` that can se used in your app. Kafka, Redis, TCP, etc.
+- `transporters` Meant for all the microservices and interfaces other than `HTTP` used in your app. Kafka, Redis, NATS, etc.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -166,7 +166,8 @@ To get a local copy up and running follow these simple example steps.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Add unit tests
+- [x] Add unit tests
+- [x] Add e2e tests
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -177,7 +178,7 @@ To get a local copy up and running follow these simple example steps.
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+If you have a suggestion that would make this better, please fork the repo and create a pull request.
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
@@ -196,18 +197,3 @@ Don't forget to give the project a star! Thanks again!
 Distributed under the MIT License. See `LICENSE.md` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
