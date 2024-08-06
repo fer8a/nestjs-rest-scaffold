@@ -4,7 +4,6 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { TerminusModule } from '@nestjs/terminus';
-import { httpOptions } from '@/config/httpAdapter';
 import { HealthcheckController } from '@/resources/healthcheck/controllers/healthcheck.controller';
 import { PrismaModule } from '@/config/db/prisma/prisma.module';
 import { Logger } from '@nestjs/common';
@@ -19,7 +18,7 @@ beforeAll(async () => {
   }).compile();
 
   app = moduleRef.createNestApplication<NestFastifyApplication>(
-    new FastifyAdapter(httpOptions),
+    new FastifyAdapter(),
   );
 
   await app.init();

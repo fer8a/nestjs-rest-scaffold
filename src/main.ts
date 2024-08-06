@@ -1,4 +1,4 @@
-import { otelSdk } from './config/tracer/otel-tracer';
+import { otelSdk } from './config/telemetry/otel-tracer';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -13,7 +13,6 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
-import { httpOptions } from './config/httpAdapter';
 
 async function bootstrap() {
   // Open Telemetry SDK initialization
@@ -22,7 +21,7 @@ async function bootstrap() {
   // App instance
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(httpOptions),
+    new FastifyAdapter(),
     { bufferLogs: true },
   );
 
