@@ -9,7 +9,6 @@ import {
 } from '@nestjs/platform-fastify';
 import { Environment } from './config/env/constants';
 // import { kafkaConfig } from '@/transporters/kafka/kafka.config';
-import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
@@ -22,19 +21,18 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
-    { bufferLogs: true },
+    { cors: true, bufferLogs: true },
   );
 
   // Environment variables
   const config = app.get(ConfigService);
 
+  // Bind fastify middlewares
+  await app.register(helmet);
+
   // Bind Logger
   app.useLogger(app.get(Logger));
   app.flushLogs();
-
-  // Bind fastify middlewares
-  await app.register(helmet);
-  await app.register(cors);
 
   // Bind global Pipes
   app.useGlobalPipes(

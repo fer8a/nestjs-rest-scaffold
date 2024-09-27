@@ -23,8 +23,8 @@ export class HealthcheckController {
   healthCheck() {
     // Check Services connection
     return this.health.check([
-      // The process should not use more than 250MB memory
-      () => this.memory.checkHeap('memory_heap', 250 * 1024 * 1024),
+      // The process should not use more than 300MB memory
+      () => this.memory.checkHeap('memory_heap', 300 * 1024 * 1024),
       // Check DB connection
       () => this.prisma.pingCheck('prisma', this.prismaService),
     ]);
