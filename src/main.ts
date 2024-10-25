@@ -63,6 +63,6 @@ async function bootstrap() {
   // app.connectMicroservice(kafkaConfig);
   // await app.startAllMicroservices();
 
-  await app.listen(config.get('PORT', 3000));
+  await app.listen({ port: config.get('PORT', 3000) });
 }
 bootstrap();
