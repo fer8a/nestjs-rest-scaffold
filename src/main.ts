@@ -1,4 +1,4 @@
-import { otelSdk } from './config/telemetry/otel-tracer';
+import { otelSdk } from './config/telemetry/instrumentation';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -37,14 +37,15 @@ async function bootstrap() {
   // Bind global Pipes
   app.useGlobalPipes(
     new ValidationPipe({
-      disableErrorMessages: config.get('NODE_ENV') === Environment.production,
+      disableErrorMessages:
+        config.get<Environment>('NODE_ENV') === Environment.prod,
       whitelist: true,
       transform: true,
     }),
   );
 
   // Init Swagger docs
-  if (config.get('NODE_ENV') !== Environment.production) {
+  if (config.get<Environment>('NODE_ENV') !== Environment.prod) {
     const swaggerConfig = new DocumentBuilder()
       .setTitle('Boilerplate API')
       .setDescription('Example docs')
@@ -55,7 +56,7 @@ async function bootstrap() {
   }
 
   // Starts listening for shutdown hooks
-  if (config.get('NODE_ENV') === Environment.production) {
+  if (config.get<Environment>('NODE_ENV') === Environment.prod) {
     app.enableShutdownHooks();
   }
 
@@ -65,4 +66,4 @@ async function bootstrap() {
 
   await app.listen({ port: config.get('PORT', 3000) });
 }
-bootstrap();
+void bootstrap();

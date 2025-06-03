@@ -10,7 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 export const CacheModule = cacheModule.register(
   cacheModule.registerAsync({
     imports: [ConfigModule],
-    useFactory: async (configService: ConfigService) => ({
+    useFactory: (configService: ConfigService) => ({
       ttl: configService.get('CACHE_TTL', 5000),
       max: configService.get('CACHE_MAX', 100),
     }),

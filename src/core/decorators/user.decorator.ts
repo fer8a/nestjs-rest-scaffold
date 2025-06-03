@@ -1,4 +1,12 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { FastifyRequest } from 'fastify';
+
+// Extend FastifyRequest to include 'user'
+declare module 'fastify' {
+  interface FastifyRequest {
+    user?: Record<string, unknown>;
+  }
+}
 
 /**
  * Decorator to retrieve the current authenticated user from the request
@@ -7,10 +15,10 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
  * @param {ExecutionContext} ctx Execution context
  */
 export const AuthUser = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
+  (data: string, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest<FastifyRequest>();
     const user = request.user;
 
-    return data ? user[`${data}`] : user;
+    return data ? user?.[data] : user;
   },
 );

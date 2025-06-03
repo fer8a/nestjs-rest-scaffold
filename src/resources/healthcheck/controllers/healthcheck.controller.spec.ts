@@ -14,7 +14,7 @@ describe('Healthcheck Controller', () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [HealthcheckController],
     })
-      .useMocker(() => createMock())
+      .useMocker((): unknown => createMock())
       .compile();
 
     controller = moduleRef.get(HealthcheckController);
@@ -26,9 +26,6 @@ describe('Healthcheck Controller', () => {
   describe('Test healthCheck function', () => {
     it('Should return OK-UP health indicators', async () => {
       const upMock = { prisma: { status: 'up' as const } };
-
-      jest.spyOn(prismaHealth, 'pingCheck').mockResolvedValueOnce(upMock);
-
       const okMock = {
         status: 'ok' as const,
         info: await prismaHealth.pingCheck('prisma', prismaService),
@@ -36,20 +33,22 @@ describe('Healthcheck Controller', () => {
         details: await prismaHealth.pingCheck('prisma', prismaService),
       };
 
-      jest.spyOn(healthService, 'check').mockResolvedValueOnce(okMock);
+      const pinCheck = jest
+        .spyOn(prismaHealth, 'pingCheck')
+        .mockResolvedValueOnce(upMock);
+      const check = jest
+        .spyOn(healthService, 'check')
+        .mockResolvedValueOnce(okMock);
 
       const response = await controller.healthCheck();
 
-      expect(healthService.check).toHaveBeenCalled();
-      expect(prismaHealth.pingCheck).toHaveBeenCalled();
+      expect(check).toHaveBeenCalled();
+      expect(pinCheck).toHaveBeenCalled();
       expect(response).toBe(okMock);
     });
 
     it('Should return ERROR-DOWN health indicators', async () => {
       const downMock = { prisma: { status: 'down' as const } };
-
-      jest.spyOn(prismaHealth, 'pingCheck').mockResolvedValueOnce(downMock);
-
       const errorMock = {
         status: 'error' as const,
         info: {},
@@ -57,13 +56,17 @@ describe('Healthcheck Controller', () => {
         details: await prismaHealth.pingCheck('prisma', prismaService),
       };
 
-      jest.spyOn(prismaHealth, 'pingCheck').mockResolvedValueOnce(downMock);
-      jest.spyOn(healthService, 'check').mockResolvedValueOnce(errorMock);
+      const pingCheck = jest
+        .spyOn(prismaHealth, 'pingCheck')
+        .mockResolvedValueOnce(downMock);
+      const check = jest
+        .spyOn(healthService, 'check')
+        .mockResolvedValueOnce(errorMock);
 
       const response = await controller.healthCheck();
 
-      expect(healthService.check).toHaveBeenCalled();
-      expect(prismaHealth.pingCheck).toHaveBeenCalled();
+      expect(check).toHaveBeenCalled();
+      expect(pingCheck).toHaveBeenCalled();
       expect(response).toBe(errorMock);
     });
   });

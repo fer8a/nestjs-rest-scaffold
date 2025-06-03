@@ -21,11 +21,15 @@ export class ExceptionsFilter extends BaseExceptionFilter {
         case 'P2025':
           throw new NotFoundException(exception.message);
           break;
-        case 'P2002':
+        case 'P2002': {
+          const fields = Array.isArray(exception.meta?.target)
+            ? exception.meta?.target.join(', ')
+            : String(exception.meta?.target);
           throw new ConflictException(
-            `Unique constraint failed on the fields: [${exception.meta?.target}]`,
+            `Unique constraint failed on the fields: [${fields}]`,
           );
           break;
+        }
         default:
           break;
       }

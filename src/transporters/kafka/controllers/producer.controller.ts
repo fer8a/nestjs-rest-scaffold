@@ -16,7 +16,7 @@ export class ProducerController {
    */
   @Post('test')
   sendPayload() {
-    const topic = this.config.get('KAFKA_TOPIC');
+    const topic = this.config.get<string>('KAFKA_TOPIC');
     const data = { foo: 'bar', date: new Date() };
 
     return this.kafka.emit(topic, data);

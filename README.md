@@ -61,12 +61,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[NestJS](https://nestjs.com/) is a great Framework to start building very robust server-side applications. There are many great templates available on GitHub; however, I didn't find one that really suited my needs so I created this ~~very opinionated~~ one. I wanted a boilerplate that would integrate many of the great features Nest has to offer, _out-of-the-box_, with the minimun configuration effort to start bootstraping an application right away.
+[NestJS](https://nestjs.com/) is a great Framework to start building very robust server-side applications. There are many great templates available on GitHub; however, I couldn't find one that really suited my needs, therefore I created this ~~very opinionated~~ one. I wanted a boilerplate that would integrate many of the great features Nest has to offer, _out-of-the-box_, with the minimun configuration effort to start bootstraping an application right away.
 
 Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
+* Your time should be focused on creating something amazing. A project that solves a problem and helps others.
 * You shouldn't be doing the same tasks over and over; like integrating a DB layer, a microservice layer, etc.
-* You should implement DRY principles to the rest of your life as well :)
+* Keep it DRY and save some time :)
 
 Of course, no one template will serve all projects since your needs may be different, but here's for everyone who find it helpful.
 
@@ -93,7 +93,7 @@ Every time I start building an API, a REST microservice, a server-side app; ther
 
 Let's list a few of the features provided on this project:
 - Open Telemetry to instrument, generate, collect, and export telemetry data.
-- Terminus module for the healthcheck of your application exposed at `/health` route.
+- Terminus module for the healthcheck of your application exposed at the `/health` route.
 - OpenAPI specification ([Swagger](https://swagger.io/)) for all the `HTTP` routes (Thanks to NestJS CLI plugin).
 - Global exception middleware so you can catch and customize any target exception to your likings.
 - Global request-logger middleware so all the incoming and outgoing `HTTP` requests are logged by default with their metadata.
@@ -111,14 +111,14 @@ Let's list a few of the features provided on this project:
 <!-- FOLDER STRUCTURE -->
 ## Folder Structure
 
-Following the _Nest way_ of things, I ended up up with a module-based approach when it came to structuring the code.
-That being said, the project comes with a series of folders and modules that you can reuse and extend to fit your needs, let's talk a bit about it.
+Following the _Nest way_, I ended up up with a module-based approach when it came to structuring the code.
+That being said, the project comes with a series of folders and modules that you can reuse and extend to fit your needs, let's review them.
 - `config` Like its name implies is a folder to place all sort of configurations for your app. `cache`, `env`, configurations live here. You can also and include more modules in it.
-- `config/otel-tracer` Open Telemetry SDK and configuration file.
+- `config/telemetry` Open Telemetry SDK and configuration file.
 - `config/db` Quite self explanatory, this is your DB module, the folder to place all your configs and ORM layer.
-- `config/logs` Module where you can place the log driver used by your app. Comes with Pino and Winston out of the box.
+- `config/log` Module where you can place the log driver used by your app. Comes with Pino out of the box.
 - `core` This is it, the source of ~~evil~~ the base code. It's a module wrapping the minimun functionality the app should have, again this is very opinionated of me, so you may choose to adjust it to fit your needs.
-- `providers` Folder to place external third-party SDKs or libraries (AWS, Sendgrid, etc).
+- `providers` Folder to place external third-party SDKs or libraries.
 - `resources` Interfaces and endpoints with the bussiness logic of your app should be placed here. Modules, Controllers, Services and entities related to the solution you're building.
 - `resources/healthcheck` This exposes the healthcheck functionality of your app to the `HTTP` transport layer.
 - `transporters` Meant for all the microservices and interfaces other than `HTTP` used in your app. Kafka, Redis, NATS, etc.
@@ -148,7 +148,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/your_username_/nestjs-rest-scaffold.git
    ```
 2. Install NPM packages
    ```sh

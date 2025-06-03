@@ -1,26 +1,21 @@
 {
   "compilerOptions": {
-    "types": ["node", "jest"],
     "module": "commonjs",
-    "moduleResolution": "node",
-    "lib": ["es2021"],
-    "target": "es2021",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
     "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
     "incremental": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "outDir": "./dist",
-    "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
     }

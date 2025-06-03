@@ -1,7 +1,7 @@
 // Valid Enviroment values
 export enum Environment {
   local = 'local',
-  development = 'dev',
+  dev = 'dev',
   debug = 'debug',
-  production = 'prod',
+  prod = 'prod',
 }
