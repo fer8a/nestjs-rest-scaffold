@@ -94,15 +94,16 @@ Every time I start building an API, a REST microservice, a server-side app; ther
 Let's list a few of the features provided on this project:
 - Open Telemetry to instrument, generate, collect, and export telemetry data.
 - Terminus module for the healthcheck of your application exposed at the `/health` route.
-- OpenAPI specification ([Swagger](https://swagger.io/)) for all the `HTTP` routes (Thanks to NestJS CLI plugin).
+- OpenAPI specification ([Swagger](https://swagger.io/)) for all the `HTTP` routes (enhanced by the NestJS CLI plugin to reduce boilerplate).
 - Global exception middleware so you can catch and customize any target exception to your likings.
-- Global request-logger middleware so all the incoming and outgoing `HTTP` requests are logged by default with their metadata.
+- Global request-logger middleware for all incoming and outgoing `HTTP` (requests are logged by default with their metadata).
 - Global Cache middleware to enhance the response time of all the `GET` `HTTP` requests.
 - A programmatic way to access `environment` variables through DI.
 - A database ORM to interact with mulple DB drivers using the great [Prisma](https://www.prisma.io/) package.
+- [auto-mock](https://docs.nestjs.com/fundamentals/testing#auto-mocking) functionality for testing out of the box using the `createMock` utility from the [@golevelup/ts-jest](https://github.com/golevelup/nestjs/tree/master/packages/testing) package.
 - A programmatic way to generate logs using DI upon the right context of your application.
 - An example implementation of a [Kafka](https://kafka.apache.org/) transporter layer with a producer/consumer interface.
-- Husky package with _lint-staged_ bundled with _pre-commit and pre-push_ hooks that will run linter, formatter and tests
+- Husky package with _lint-staged_ bundled with _pre-commit and pre-push_ hooks that will run linter, formatter and tests.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -168,6 +169,7 @@ To get a local copy up and running follow these simple example steps.
 
 - [x] Add unit tests
 - [x] Add e2e tests
+- [ ] Add Docker Compose
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
