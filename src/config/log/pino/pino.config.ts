@@ -7,7 +7,7 @@ const prettyPrint = {
   translateTime: 'mmm dd, HH:MM:ss',
   customColors: Object.entries({
     trace: 'magentaBright',
-    debug: 'whiteBright',
+    debug: 'blueBright',
     info: 'greenBright',
     warn: 'yellowBright',
     error: 'redBright',

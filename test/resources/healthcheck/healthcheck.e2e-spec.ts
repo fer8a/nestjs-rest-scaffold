@@ -3,18 +3,14 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { TerminusModule } from '@nestjs/terminus';
-import { HealthcheckController } from '@/resources/healthcheck/controllers/healthcheck.controller';
-import { PrismaModule } from '@/config/db/prisma/prisma.module';
-import { Logger } from '@nestjs/common';
+import { HealthcheckModule } from '@/resources/healthcheck/healthcheck.module';
 
 let app: NestFastifyApplication;
 let upMock: Record<string, unknown>;
 
 beforeAll(async () => {
   const moduleRef = await Test.createTestingModule({
-    imports: [TerminusModule.forRoot({ logger: Logger }), PrismaModule],
-    controllers: [HealthcheckController],
+    imports: [HealthcheckModule],
   }).compile();
 
   app = moduleRef.createNestApplication<NestFastifyApplication>(
@@ -48,16 +44,20 @@ beforeEach(() => {
   };
 });
 
-it(`/GET healthcheck`, () => {
-  return app
-    .inject({
-      method: 'GET',
-      url: '/health',
-    })
-    .then((result) => {
-      expect(result.statusCode).toEqual(200);
-      expect(result.payload).toEqual(JSON.stringify(upMock));
+describe('(e2e) Healthcheck', () => {
+  describe('healthcheck', () => {
+    it(`should /GET healthcheck and return a success response`, () => {
+      return app
+        .inject({
+          method: 'GET',
+          url: '/health',
+        })
+        .then((result) => {
+          expect(result.statusCode).toEqual(200);
+          expect(result.payload).toEqual(JSON.stringify(upMock));
+        });
     });
+  });
 });
 
 afterAll(async () => {
